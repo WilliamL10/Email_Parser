@@ -1,0 +1,12 @@
+From: travel@agency.com
+To: bibbybob@yahoo.com
+Subject: Your Flight Schedule
+
+Dear customer,
+
+Your flight to New York is confirmed.
+
+Departure: June 2nd, 2024, 12:00 PM
+Flight Number: 12TNAMA
+
+Thank you for choosing our service.
