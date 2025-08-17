@@ -34,7 +34,7 @@ def main():
 
         # Check if (each) keyword(s) exists in email(s) and add them to the list
         for word in keywords:
-            if re.search(rf"\b{re.escape(word)}\b", email, re.IGNORECASE):
+            if re.search(rf"{re.escape(word)}", email, re.IGNORECASE):
                 matched_words.append(word)
 
         # If at least one word is found...
