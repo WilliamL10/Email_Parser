@@ -1,3 +1,3 @@
-# Email_Parser
+# Similar to CTRL+F.
 
-Program that allows the user to search for keyword(s) within (multiple) .txt file(s) in the user's specified folder
+This program allows the user to search for keyword(s) within (multiple) .txt file(s) in the user's specified folder through the use of the terminal.
