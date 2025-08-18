@@ -1,5 +1,17 @@
-import re
+import os, re
 from pathlib import Path
+
+
+# Clear the screen and enable colors for highlighting matched words
+os.system("cls")
+
+
+# Highlight matched keywords in the email text in yellow
+def highlight_matches(email, keywords):
+    for word in keywords:
+        pattern = re.compile(rf"({re.escape(word)})", re.IGNORECASE)
+        email = pattern.sub("\033[93m" + r"\1" + "\033[0m", email)
+    return email
 
 
 def main():
@@ -20,6 +32,7 @@ def main():
 
     # Declaration / Get files that end in .txt and put them in a list
     total_matches = 0
+    keyword_totals = {word: 0 for word in keywords}
     files = sorted(folder.glob("**/*.txt"))
 
 
@@ -30,25 +43,35 @@ def main():
         email = filename.read_text(encoding = 'utf-8')
 
         # Create empty list to hold matched words every loop to reset it
-        matched_words = []
+        keyword_counts = {}
+        current_loop_match = 0
 
         # Check if (each) keyword(s) exists in email(s) and add them to the list
         for word in keywords:
-            if re.search(rf"{re.escape(word)}", email, re.IGNORECASE):
-                matched_words.append(word)
+            matches = re.findall(re.escape(word), email, re.IGNORECASE)
+            # If there is a match...
+            if matches:
+                keyword_counts[word] = len(matches)
+                keyword_totals[word] += len(matches)
 
         # If at least one word is found...
-        if matched_words:
+        if keyword_counts:
             total_matches += 1
+
             print("=" * 60)
             # Print the filename and the keywords that were matched
             print(f"File: {filename.name} - Matches found for: {keywords}")
+            # Find how many times that word appeared in an email
+            for word, count in keyword_counts.items():
+                print(f"\t'{word}' found {count} time(s)")
             print("-" * 60 + "\n")
             # Print the entire email contents with matched words highlighted
-            print(email.strip())
+            print(highlight_matches(email.strip(), keywords))
             print("\n" + "=" * 60 + "\n")
 
     print(f"\nTotal files matched: {total_matches} out of {len(files)}")
+    for word, total in keyword_totals.items():
+        print(f"'{word}' appeared {total} time(s) across all files.")
 
 if __name__ == "__main__":
     main()
